@@ -1,0 +1,25 @@
+main {
+  padding-top: 60px;
+}
+
+form {
+  width: 350px;
+  padding-bottom: 10px;
+}
+
+.button {
+  border-radius: 50px;
+}
+
+.form-control {
+  border-radius: 50px;
+}
+
+ul {
+  margin-bottom: 0px;
+}
+
+#completedTaskList .content {
+  color: grey;
+  text-decoration: line-through;
+}
