@@ -1,5 +1,5 @@
 // need to update the address everytime we restart ganache
-export const TODO_LIST_ADDRESS = '0xb7FfA409FC45f57f17271F5eAAF48b00deb19e04'
+export const TODO_LIST_ADDRESS = '0x0533815A84cF41252513bfb13A3f1F62A5B7849c'
 
 export const TODO_LIST_ABI = [
     {

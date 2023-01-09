@@ -40,8 +40,28 @@ class App extends Component {
       tasks: [],
       loading: true
     }
-    // this.createTask = this.createTask.bind(this)
-    // this.toggleCompleted = this.toggleCompleted.bind(this)
+    this.createTask = this.createTask.bind(this)
+    this.toggleTask = this.toggleTask.bind(this)
+  }
+
+  createTask(content) {
+    this.setState({ loading : true})
+    // send writes data to the blockchain, then wait for the receipt to confirm the transaction is finished, then stop laoding
+    this.state.todoList.methods.createTask(content).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
+  }
+
+  toggleTask(taskId) {
+    this.setState({ loading : true})
+    // send writes data to the blockchain, then wait for the receipt to confirm the transaction is finished, then stop laoding
+    this.state.todoList.methods.toggleCompleted(taskId).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
   }
 
   render() {
@@ -58,29 +78,14 @@ class App extends Component {
         <div className="container-fluid">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex justify-content-center">
-              <div id="loader" className="text-center">
-                <p className="text-center">Loading...</p>
-              </div>
-              <div id="content">
-                <form>
-                  <input id="newTask" type="text" className="form-control" placeholder="Add task..." required />
-                  <button className='button' type="submit">submit</button>
-                </form>
-                <ul id="taskList" className="list-unstyled">
-                  { this.state.tasks.map((task, key) => {
-                    return(
-                      <div className="taskTemplate" className="checkbox" key={key}>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="content">{task.content}</span>
-                        </label>
-                      </div>
-                    )
-                  })}
-                </ul>
-                <ul id="completedTaskList" className="list-unstyled">
-                </ul>
-              </div>
+              {/* load the component called TodoList after abstracting away the TodoList  */}
+              { this.state.loading 
+                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div> 
+                : <TodoList 
+                    tasks = {this.state.tasks} 
+                    createTask= {this.createTask}
+                    toggleCompleted= {this.toggleTask}/>
+              }
             </main>
           </div>
         </div>
